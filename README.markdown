@@ -1,6 +1,6 @@
 # querystring.lua
 
-Simple library to pasre / build querystrings.
+Simple library to parse / build querystrings.
 
 ## usage
 
