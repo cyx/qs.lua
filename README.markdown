@@ -37,7 +37,14 @@ assert(t.arr[3] == "3")
 
 Supports querystrings as defined in the RFC here:
 
-    http://tools.ietf.org/html/rfc3986#section-3.4
+    [http://tools.ietf.org/html/rfc3986#section-3.4](http://tools.ietf.org/html/rfc3986#section-3.4)
+
+TL;DR
+
+1) No support for hierarchical data
+2) Arrays supported by repeating the name multiple times
+3) If you have brackets i.e. `user[name]`, it will be parsed verbatim
+   as that key.
 
 ## license
 
