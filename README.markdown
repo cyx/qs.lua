@@ -33,10 +33,6 @@ assert(t.arr[2] == "2")
 assert(t.arr[3] == "3")
 ```
 
-## notes
-
-Supports querystrings as [defined in RFC 3986][rfc]
-
 ### TL;DR
 
 1. No support for hierarchical data
@@ -47,5 +43,3 @@ Supports querystrings as [defined in RFC 3986][rfc]
 ## license
 
 MIT
-
-[rfc]: http://tools.ietf.org/html/rfc3986#section-3.4
