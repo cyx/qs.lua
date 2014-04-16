@@ -66,38 +66,26 @@ end
 -- @see http://tools.ietf.org/html/rfc3986#section-3.4
 --
 local function parse(str, sep, eq)
-	sep = sep or SEP
-	eq = eq or EQ
+	local lists = {}
+	local result = { __lists = lists }
 
-	local qs = {}
-
-	for x in util.split(str, sep) do
-		local idx = find(x, eq)
-		local key, val
-
-		if idx then
-			key = sub(x, 1, idx - 1)
-			val = sub(x, idx + 1)
-		else
-			key = x
-			val = "";
+	for key, val in util.parse_iter(str, sep, eq) do
+		if result[key] == nil then
+			result[key] = val
 		end
-		
-		key = decode(key)
-		val = decode(val)
 
-		if not qs[key] then
-			qs[key] = val
+		lists[key] = lists[key] or {}
 
-		elseif util.isarray(qs[key]) then
-			insert(qs[key], val)
-
-		else
-			qs[key] = {qs[key], val}
-		end
+		insert(lists[key], val)
 	end
 
-	return qs
+	local function list(self, key)
+		return self.__lists[key]
+	end
+
+	setmetatable(result, { __index = { list = list }})
+
+	return result
 end
 
 -- For the context of this module, an array is simply any object
@@ -116,6 +104,35 @@ function util.split(str, sep)
 	return gmatch(str, pattern)
 end
 
+function util.parse_iter(str, sep, eq)
+	sep = sep or SEP
+	eq = eq or EQ
+	
+	local fn = util.split(str, sep)
+
+	return function()
+		local chunk = fn()
+
+		if chunk then
+			local key, val = util.split_once(chunk, eq)
+
+			key = decode(key)
+			val = decode(val)
+
+			return key, val
+		end
+	end
+end
+
+function util.split_once(str, sep)
+	local idx = find(str, sep)
+
+	if not idx then
+		return str, ""
+	end
+
+	return sub(str, 1, idx - 1), sub(str, idx + 1)
+end
 
 local module = {
 	build = build,

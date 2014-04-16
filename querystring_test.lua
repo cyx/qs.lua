@@ -5,8 +5,9 @@ local t = querystring.parse("a=a&b=&c=1&c=2")
 
 assert(t.a == "a")
 assert(t.b == "")
-assert(t.c[1] == "1")
-assert(t.c[2] == "2")
+assert(t.c == "1")
+assert(t:list("c")[1] == "1")
+assert(t:list("c")[2] == "2")
 
 -- case 2: make sure we can parse what we built 
 local dict = {
@@ -21,8 +22,9 @@ local t = querystring.parse(querystring.build(dict))
 assert(t.foo == "foo")
 assert(t.bar == "bar")
 assert(t.baz == "")
-assert(t.arr[1] == "1")
-assert(t.arr[2] == "2")
-assert(t.arr[3] == "3")
+assert(t.arr == "1")
+assert(t:list("arr")[1] == "1")
+assert(t:list("arr")[2] == "2")
+assert(t:list("arr")[3] == "3")
 
 print("All tests passed.")
