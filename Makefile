@@ -1,4 +1,4 @@
 test:
-	@lua querystring_test.lua
+	@lua qs_test.lua
 
 .PHONY: test
