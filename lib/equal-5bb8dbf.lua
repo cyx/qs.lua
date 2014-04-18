@@ -23,16 +23,24 @@
 local function equal(x, y)
 	local t1, t2 = type(x), type(y)
 
-	-- shortcircuit if types not equal
+	-- Shortcircuit if types not equal.
 	if t1 ~= t2 then return false end
 
-	-- for primitive types, direct comparison works
+	-- For primitive types, direct comparison works.
 	if t1 ~= 'table' and t2 ~= 'table' then return x == y end
 
+	-- Since we have two tables, make sure both have the same
+	-- length so we can avoid looping over different length arrays.
+	if #x ~= #y then return false end
+
+	-- Case 1: check over all keys of x
 	for k,v in pairs(x) do
-		if not equal(v, y[k]) then
-			return false
-		end
+		if not equal(v, y[k]) then return false end
+	end
+
+	-- Case 2: check over `y` this time.
+	for k,v in pairs(y) do
+		if not equal(v, x[k]) then return false end
 	end
 
 	return true

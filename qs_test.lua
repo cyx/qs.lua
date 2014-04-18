@@ -1,5 +1,5 @@
 local qs = require("qs")
-local equal = require("lib/equal-e2b63a6")
+local equal = require("lib/equal-5bb8dbf")
 
 -- case 1: a string, an empty string, and an array
 local t = qs.parse("a=a&b=&c=1&c=2")
